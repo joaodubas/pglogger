@@ -12,7 +12,7 @@ const (
 	incCtrlFile  = "/data/inc_ctrl.dat"
 )
 
-// Run pgbadger for the given lines and return a collectin of LogMinutes
+// Run pgbadger for the given lines and return a collection of LogMinutes
 func AnalyzeLogs(lines string) Logs {
 	log.Info("Analyzing logs...")
 	cmd := exec.Command(badgerCmd,

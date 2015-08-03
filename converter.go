@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"sort"
+	"strconv"
 	"time"
 )
 
@@ -27,23 +28,7 @@ func handleEmpty(str string) string {
 }
 
 func conv(v int) string {
-	return handleEmpty(string(v))
-}
-
-// Create a new LogLine for the given args
-func newLogLine(moment time.Time, counter Counter) LogMinute {
-	return LogMinute{
-		Timestamp:   moment.Unix(),
-		Connections: conv(counter.Connection.Count),
-		Sessions:    conv(counter.Session.Count),
-		Selects:     conv(counter.Select.Count),
-		Inserts:     conv(counter.Insert.Count),
-		Updates:     conv(counter.Update.Count),
-		Deletes:     conv(counter.Delete.Count),
-		Duration:    convDuration(counter),
-		Min:         handleEmpty(counter.Query.Min),
-		Max:         handleEmpty(counter.Query.Max),
-	}
+	return handleEmpty(strconv.Itoa(v))
 }
 
 // Convert pgbadger generated logs to our LogMinute struct

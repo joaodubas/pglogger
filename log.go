@@ -1,5 +1,7 @@
 package main
 
+import "time"
+
 // Final data structure that is serialized and sent to Graphite
 // Every field populates a new metric on Graphite side
 // The API we are using sends everything as string
@@ -14,6 +16,22 @@ type LogMinute struct {
 	Max         string
 	Min         string
 	Duration    string
+}
+
+// Create a new LogLine for the given args
+func newLogLine(moment time.Time, counter Counter) LogMinute {
+	return LogMinute{
+		Timestamp:   moment.Unix(),
+		Connections: conv(counter.Connection.Count),
+		Sessions:    conv(counter.Session.Count),
+		Selects:     conv(counter.Select.Count),
+		Inserts:     conv(counter.Insert.Count),
+		Updates:     conv(counter.Update.Count),
+		Deletes:     conv(counter.Delete.Count),
+		Duration:    convDuration(counter),
+		Min:         handleEmpty(counter.Query.Min),
+		Max:         handleEmpty(counter.Query.Max),
+	}
 }
 
 // Creating a Container type for our Logs that

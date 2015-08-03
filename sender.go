@@ -7,6 +7,10 @@ import (
 
 var Graphite *graphite.Graphite
 
+func init() {
+	loadGraphite()
+}
+
 func loadGraphite() {
 	host := config.Graphite.Host
 	port := config.Graphite.Port
@@ -18,8 +22,17 @@ func loadGraphite() {
 	log.Info(fmt.Sprintf("Graphite conn: %#v", Graphite))
 }
 
-func init() {
-	loadGraphite()
+// Send log lines to Graphite
+func SendLogs(logs Logs) {
+	log.Info("Sending logs to Graphite...")
+	var metrics []graphite.Metric
+	for _, log := range logs {
+		metrics = append(metrics, createMetrics(log)...)
+	}
+	err := Graphite.SendMetrics(metrics)
+	if err != nil {
+		log.Panic(err)
+	}
 }
 
 func createMetrics(log LogMinute) (metrics []graphite.Metric) {
@@ -41,17 +54,4 @@ func createMetrics(log LogMinute) (metrics []graphite.Metric) {
 		metrics = append(metrics, graphite.NewMetric(name, v, log.Timestamp))
 	}
 	return metrics
-}
-
-// Send log lines to Graphite
-func SendLogs(logs Logs) {
-	log.Info("Sending logs to Graphite...")
-	var metrics []graphite.Metric
-	for _, log := range logs {
-		metrics = append(metrics, createMetrics(log)...)
-	}
-	err := Graphite.SendMetrics(metrics)
-	if err != nil {
-		log.Panic(err)
-	}
 }
