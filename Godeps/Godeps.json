@@ -1,0 +1,19 @@
+{
+	"ImportPath": "github.com/mmr/pglogger",
+	"GoVersion": "go1.4.2",
+	"Deps": [
+		{
+			"ImportPath": "code.google.com/p/gcfg",
+			"Rev": "c2d3050044d05357eaf6c3547249ba57c5e235cb"
+		},
+		{
+			"ImportPath": "github.com/Sirupsen/logrus",
+			"Comment": "v0.8.6-1-g8bca266",
+			"Rev": "8bca2664072173a3c71db4c28ca8d304079b1787"
+		},
+		{
+			"ImportPath": "github.com/marpaia/graphite-golang",
+			"Rev": "a21ff3a5cd50cef156cd648a5141e3bcd6f0c22a"
+		}
+	]
+}
